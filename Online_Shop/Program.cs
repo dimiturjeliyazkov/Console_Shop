@@ -10,7 +10,7 @@ namespace Online_Shop
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("Hello world");
         }
     }
 }
