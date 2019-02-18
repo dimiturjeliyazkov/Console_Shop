@@ -12,6 +12,7 @@ namespace Online_Shop
         {
             Console.WriteLine("Hello world");
             Console.WriteLine("hiii");
+            Console.WriteLine("ddz");
         }
     }
 }
