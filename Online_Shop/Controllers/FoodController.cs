@@ -30,7 +30,14 @@ namespace Online_Shop.Controllers
             using (shopContext = new ShopContext())
             {
                 Food food = new Food();
-                food.Id = shopContext.Foods.Count().ToString();
+                if (shopContext.Foods.Count() == 0)
+                {
+                    food.Id = "0";
+                }
+                else
+                {
+                    food.Id = (int.Parse(shopContext.Foods.ToList().Last().Id) + 1).ToString();
+                }
                 food.Name = name;
                 food.Price = price;
                 food.Description = description;
