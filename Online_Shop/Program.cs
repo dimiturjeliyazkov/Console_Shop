@@ -11,7 +11,7 @@ namespace Online_Shop
     {
         static void Main(string[] args)
         {
-            Display display = new Display();
+            InitialDisplay display = new InitialDisplay();
         }
     }
 }

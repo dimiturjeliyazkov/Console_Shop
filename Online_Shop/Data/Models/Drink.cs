@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Online_Shop.Data
 {
-    class Drink
+    class Drink:Product
     {
         [Key]
         public string Id { get; set; }

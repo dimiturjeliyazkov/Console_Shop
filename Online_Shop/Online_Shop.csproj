@@ -124,6 +124,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\FoodController.cs" />
     <Compile Include="Data\Models\Dessert.cs" />
     <Compile Include="Data\Models\Drink.cs" />
     <Compile Include="Data\Models\Food.cs" />
@@ -133,21 +134,28 @@
     <Compile Include="Migrations\202102071735091_initial-setup.designer.cs">
       <DependentUpon>202102071735091_initial-setup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212062033599_second.cs" />
+    <Compile Include="Migrations\202212062033599_second.designer.cs">
+      <DependentUpon>202212062033599_second.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Display.cs" />
+    <Compile Include="Views\AdminDisplay.cs" />
+    <Compile Include="Views\InitialDisplay.cs" />
+    <Compile Include="Views\UserDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202102071735091_initial-setup.resx">
       <DependentUpon>202102071735091_initial-setup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212062033599_second.resx">
+      <DependentUpon>202212062033599_second.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
