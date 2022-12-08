@@ -18,6 +18,7 @@ namespace Online_Shop.Views
         {
             while (true)
             {
+                Console.Clear();
                 UserOrAdmin();
             }
 
