@@ -124,8 +124,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\DessertController.cs" />
     <Compile Include="Controllers\DrinkController.cs" />
     <Compile Include="Controllers\FoodController.cs" />
+    <Compile Include="Data\Models\CartProduct.cs" />
     <Compile Include="Data\Models\Dessert.cs" />
     <Compile Include="Data\Models\Drink.cs" />
     <Compile Include="Data\Models\Food.cs" />
@@ -138,6 +141,14 @@
     <Compile Include="Migrations\202212062033599_second.cs" />
     <Compile Include="Migrations\202212062033599_second.designer.cs">
       <DependentUpon>202212062033599_second.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212081011079_adding_cart.cs" />
+    <Compile Include="Migrations\202212081011079_adding_cart.designer.cs">
+      <DependentUpon>202212081011079_adding_cart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212090934173_price.cs" />
+    <Compile Include="Migrations\202212090934173_price.designer.cs">
+      <DependentUpon>202212090934173_price.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -157,6 +168,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212062033599_second.resx">
       <DependentUpon>202212062033599_second.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212081011079_adding_cart.resx">
+      <DependentUpon>202212081011079_adding_cart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212090934173_price.resx">
+      <DependentUpon>202212090934173_price.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
-﻿using Online_Shop.Migrations;
+﻿using Online_Shop.Data.Models;
+using Online_Shop.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,6 +19,6 @@ namespace Online_Shop.Data
         public DbSet<Drink> Drinks { get; set; }
         public DbSet<Dessert> Desserts { get; set; }
 
-        
+        public DbSet<CartProduct> CartProducts { get; set; }
     }
 }
