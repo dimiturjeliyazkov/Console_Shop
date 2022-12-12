@@ -57,6 +57,7 @@ namespace Online_Shop.Controllers
                 cartProduct.Price = price;
                 cartProduct.Description = description;
                 cartProduct.WeightInGr = weight;
+                cartProduct.Number = 1;
                 shopContext.CartProducts.Add(cartProduct);
 
                 shopContext.SaveChanges();
@@ -89,6 +90,14 @@ namespace Online_Shop.Controllers
                 CartProduct cartProduct = shopContext.CartProducts.ToList()[int.Parse(id)];
                 if(cartProduct.Number > 0)
                 cartProduct.Number--;
+                shopContext.SaveChanges();
+            }
+        }
+        public void DeleteAll()
+        {
+            using (shopContext = new ShopContext())
+            {
+                shopContext.CartProducts.RemoveRange(shopContext.CartProducts);
                 shopContext.SaveChanges();
             }
         }

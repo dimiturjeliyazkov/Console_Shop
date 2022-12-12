@@ -10,17 +10,18 @@ namespace Online_Shop.Views
     class UserDisplay
     {
         List<string> Options = new List<string>() { "Foods", "Drinks", "Desserts"};
+        List<string> CarItems = new List<string>();
         FoodController foodController = new FoodController();
         DrinkController drinkController = new DrinkController();
         DessertController dessertController = new DessertController();
         CartController cart = new CartController();
 
         int Pointer = 0;
-        int CartIndex = 0;
         bool isInOption = true;
         bool isInFoods = false;
         bool isInDrinks = false;
         bool isInDesserts = false;
+        bool isInCart = false;
         public UserDisplay()
         {
             while (true)
@@ -150,7 +151,63 @@ namespace Online_Shop.Views
             }
             else if(usr.Key == ConsoleKey.Escape)
             {
-                UserDisplay user = new UserDisplay();
+                if (isInOption)
+                {
+                    InitialDisplay init = new InitialDisplay();
+                }
+                else
+                {
+                    UserDisplay user = new UserDisplay();
+                }
+            }
+        }
+        public void PrintCartProducts()
+        {
+            if(cart.GetAll().Count == 0)
+            {
+                PrintText("Your cart is emply", 1, Console.WindowHeight / 3, false);
+            }
+            CarItems.Clear();
+            int id = 1;
+            foreach (var item in cart.GetAll())
+            {
+                CarItems.Add($"{id++}. {item.Name} - {item.Number}br {item.Price}lv.");
+                
+            }
+            id = 1;
+            for (int i = 0; i < CarItems.Count; i++)
+            {
+                if (Pointer == i)
+                {
+                    PrintText(CarItems[i], 1, Console.WindowHeight / 3 + i, true);
+                }
+                else
+                {
+                    PrintText(CarItems[i], 1, Console.WindowHeight / 3 + i, false);
+                }
+            }
+            
+        }
+        public void OpenCart()
+        {
+            Pointer = 0;
+            while (true)
+            {
+                isInCart = true;
+                
+                Console.Clear();
+                PrintText("You've opened your cart! The cost for order is: " + cart.TotalPrice().ToString()+"lv.",
+                Console.WindowWidth / 2 - 18, 4, false);
+                PrintCartProducts();
+                if(Pointer == cart.GetAll().Count())
+                {
+                    PrintText("Completing order?", 1, Console.WindowHeight - 3, true);
+                }
+                else
+                {
+                    PrintText("Completing order?", 1, Console.WindowHeight - 3, false);
+                }
+                ChangingThePositionOfPointer(cart.GetAll().Count);
             }
         }
         private void Enter()
@@ -200,6 +257,11 @@ namespace Online_Shop.Views
                         ChangingThePositionOfPointer(dessertController.GetAll().Count);
                     }
 
+                }
+                else if(Pointer == 3)
+                {
+                    isInCart = true;
+                    OpenCart();
                 }
             }
             else if (isInFoods)
@@ -274,6 +336,10 @@ namespace Online_Shop.Views
                         }
                     }
 
+                }
+                else
+                {
+                    OpenCart();
                 }
                 
             }
@@ -350,6 +416,10 @@ namespace Online_Shop.Views
                     }
 
                 }
+                else
+                {
+                    OpenCart();
+                }
             }
             else if (isInDesserts)
             {
@@ -424,8 +494,154 @@ namespace Online_Shop.Views
                     }
 
                 }
+                else
+                {
+                    OpenCart();
+                }
+            }
+            else if (isInCart)
+            {
+                bool delete = true;
+                bool quantity = false;
+                ConsoleKeyInfo yOrn;
+                if (Pointer < cart.GetAll().Count)
+                {
+                    for (int i = 0; i < CarItems.Count; i++)
+                    {
+                        if(Pointer == i)
+                        {
+                            while (true)
+                            {
+                                PrintText(new string(' ', Console.WindowWidth), CarItems[i].Length + 2, Console.WindowHeight / 3 + i, false);
+                                PrintText("delete", CarItems[i].Length + 2, Console.WindowHeight / 3 + i, delete);
+                                PrintText("or", CarItems[i].Length + 9, Console.WindowHeight / 3 + i, false);
+                                PrintText("change quantity", CarItems[i].Length + 12, Console.WindowHeight / 3 + i, quantity);
+                                yOrn = Console.ReadKey();
+                                if (yOrn.Key == ConsoleKey.RightArrow)
+                                {
+                                    delete = false;
+                                    quantity = true;
+                                }
+                                else if(yOrn.Key == ConsoleKey.LeftArrow)
+                                {
+                                    delete = true;
+                                    quantity = false;
+                                }
+                                else if(yOrn.Key == ConsoleKey.Enter)
+                                {
+                                    if (delete)
+                                    {
+                                        cart.deleteCartProduct(i.ToString());
+                                        break;
+                                    }
+                                    else if (quantity)
+                                    {
+                                        bool plus = true;
+                                        bool minus = false;
+                                        while (true)
+                                        {
+                                            
+                                            string currentumber = $"This is the current number of this product: {cart.GetAll()[i].Number}";
+                                            PrintText(currentumber, CarItems[i].Length + 2, Console.WindowHeight / 3 + i, false);
+                                            PrintText("+", CarItems[i].Length + 2 + currentumber.Length+1, Console.WindowHeight / 3 + i, plus);
+                                            PrintText("-", CarItems[i].Length + 2 + currentumber.Length + 3, Console.WindowHeight / 3 + i, minus);
+                                            yOrn = Console.ReadKey();
+                                            {
+                                                if (yOrn.Key == ConsoleKey.RightArrow)
+                                                {
+                                                    plus = false;
+                                                    minus = true;
+                                                }
+                                                else if (yOrn.Key == ConsoleKey.LeftArrow)
+                                                {
+                                                    plus = true;
+                                                    minus = false;
+                                                }
+                                                else if(yOrn.Key == ConsoleKey.Enter)
+                                                {
+                                                    if (plus)
+                                                    {
+                                                        cart.increaseNumber(i.ToString());
+                                                    }
+                                                    else if (minus && cart.GetAll()[i].Number>0)
+                                                    {
+                                                        cart.DecreaseNumber(i.ToString());
+                                                    }
+                                                    
+                                                }
+                                                else if(yOrn.Key == ConsoleKey.Escape)
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else if(yOrn.Key == ConsoleKey.Escape)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    bool yes = true;
+                    bool no = false;
+                    
+                    if (cart.GetAll().Count == 0)
+                    {
+                        PrintText("Your cart is emplty!", Console.WindowWidth / 2 - 10, Console.WindowHeight / 2, false);
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            string text = "Are you sure you want to complete your order?";
+                            PrintText(text, Console.WindowWidth / 2 - 20, Console.WindowHeight / 2, false);
+                            PrintText("Yes", Console.WindowWidth / 2 - 30 + text.Length, Console.WindowHeight / 2 + 1, yes);
+                            PrintText(" or", Console.WindowWidth / 2 - 30 + text.Length + 3, Console.WindowHeight / 2 + 1, false);
+                            PrintText("no", Console.WindowWidth / 2 - 30 + text.Length + 7, Console.WindowHeight / 2 + 1, no);
+                            yOrn = Console.ReadKey();
+                            if (yOrn.Key == ConsoleKey.RightArrow)
+                            {
+                                yes = false;
+                                no = true;
+                            }
+                            else if (yOrn.Key == ConsoleKey.LeftArrow)
+                            {
+                                yes = true;
+                                no = false;
+                            }
+                            else if (yOrn.Key == ConsoleKey.Enter)
+                            {
+                                if (yes)
+                                {
+                                    cart.DeleteAll();
+                                    PrintText(new string(' ', Console.WindowWidth), Console.WindowWidth / 2 - 20, Console.WindowHeight / 2, false);
+                                    PrintText(new string(' ', Console.WindowWidth), Console.WindowWidth / 2 - 20 + text.Length, Console.WindowHeight / 2 + 1, false);
+                                    PrintText("You completed your order! The products will be at your door as soon as possible!",
+                                        Console.WindowWidth / 2 - 30, Console.WindowHeight / 2, false);
+                                    System.Threading.Thread.Sleep(3000);
+                                    break;
+                                }
+                                if (no)
+                                {
+                                    break;
+                                }
+                                
+
+                            }
+                            else if(yOrn.Key == ConsoleKey.Escape)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
-
     }
 }
